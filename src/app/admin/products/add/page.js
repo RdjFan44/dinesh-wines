@@ -24,17 +24,21 @@ export default function AddProductPage() {
   const [form, setForm] = useState({
     name: '', category: 'Whisky', subcategory: '',
     brand: '', price_range: { min: '', max: '' },
-    description: '', image: '', alcoholContent: '',
+    isPriceRange: false,
+    description: '', image: '', images: [], files: [], alcoholContent: '',
     volume: '750ml', origin: '', featured: false,
     available: true, tags: '',
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (name === 'price_min') {
       setForm((f) => ({ ...f, price_range: { ...f.price_range, min: value } }));
     } else if (name === 'price_max') {
       setForm((f) => ({ ...f, price_range: { ...f.price_range, max: value } }));
+    } else if (type === 'file') {
+      const selectedFiles = Array.from(files).slice(0, 6);
+      setForm((f) => ({ ...f, files: selectedFiles }));
     } else {
       setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
     }
@@ -45,15 +49,34 @@ export default function AddProductPage() {
     setError('');
     setLoading(true);
     try {
-      const payload = {
-        ...form,
-        price_range: { min: Number(form.price_range.min), max: Number(form.price_range.max) },
-        tags: form.tags.split(',').map((t) => t.trim()).filter(Boolean),
-      };
+      const formData = new FormData();
+      const finalPriceMin = Number(form.price_range.min);
+      const finalPriceMax = form.isPriceRange ? Number(form.price_range.max) : finalPriceMin;
+      
+      formData.append('name', form.name);
+      formData.append('category', form.category);
+      formData.append('subcategory', form.subcategory);
+      formData.append('brand', form.brand);
+      formData.append('description', form.description);
+      formData.append('price_range', JSON.stringify({ min: finalPriceMin, max: finalPriceMax }));
+      formData.append('tags', form.tags.split(',').map((t) => t.trim()).filter(Boolean).join(','));
+      formData.append('alcoholContent', form.alcoholContent);
+      formData.append('volume', form.volume);
+      formData.append('origin', form.origin);
+      formData.append('featured', form.featured);
+      formData.append('available', form.available);
+
+      if (form.files && form.files.length > 0) {
+        form.files.forEach(file => {
+          formData.append('files', file);
+        });
+      } else if (form.image) {
+        formData.append('image', form.image); // fallback URL
+      }
+
       const res = await fetch('/api/admin/products', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: formData,
       });
       const data = await res.json();
       if (data.success) {
@@ -114,14 +137,29 @@ export default function AddProductPage() {
               <label className="form-label" htmlFor="ap-origin">Origin</label>
               <input id="ap-origin" className="input" name="origin" placeholder="e.g. Scotland" value={form.origin} onChange={handleChange} />
             </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="ap-price-min">Min Price (₹) *</label>
-              <input id="ap-price-min" className="input" name="price_min" type="number" placeholder="e.g. 2000" value={form.price_range.min} onChange={handleChange} required min="0" />
+            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-primary)' }}>
+                <input type="checkbox" name="isPriceRange" checked={form.isPriceRange} onChange={handleChange} style={{ accentColor: 'var(--gold)' }} />
+                Use a price range (Min - Max) instead of a single price
+              </label>
             </div>
-            <div className="form-group">
-              <label className="form-label" htmlFor="ap-price-max">Max Price (₹) *</label>
-              <input id="ap-price-max" className="input" name="price_max" type="number" placeholder="e.g. 3000" value={form.price_range.max} onChange={handleChange} required min="0" />
-            </div>
+            {!form.isPriceRange ? (
+              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                <label className="form-label" htmlFor="ap-price">Price (₹) *</label>
+                <input id="ap-price" className="input" name="price_min" type="number" placeholder="e.g. 2000" value={form.price_range.min} onChange={handleChange} required min="0" />
+              </div>
+            ) : (
+              <>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="ap-price-min">Min Price (₹) *</label>
+                  <input id="ap-price-min" className="input" name="price_min" type="number" placeholder="e.g. 2000" value={form.price_range.min} onChange={handleChange} required min="0" />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="ap-price-max">Max Price (₹) *</label>
+                  <input id="ap-price-max" className="input" name="price_max" type="number" placeholder="e.g. 3000" value={form.price_range.max} onChange={handleChange} required min="0" />
+                </div>
+              </>
+            )}
             <div className="form-group">
               <label className="form-label" htmlFor="ap-alcohol">Alcohol Content</label>
               <input id="ap-alcohol" className="input" name="alcoholContent" placeholder="e.g. 40%" value={form.alcoholContent} onChange={handleChange} />
@@ -135,16 +173,27 @@ export default function AddProductPage() {
               <textarea id="ap-description" className="input" name="description" placeholder="Describe the product…" value={form.description} onChange={handleChange} required rows={4} />
             </div>
             <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-              <label className="form-label" htmlFor="ap-image">Image URL *</label>
-              <input id="ap-image" className="input" name="image" type="url" placeholder="https://images.unsplash.com/…" value={form.image} onChange={handleChange} required />
-              {form.image && (
-                <div style={{ marginTop: '10px', width: '80px', height: '104px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border)', background: '#111' }}>
-                  <img src={form.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
-                </div>
-              )}
+              <label className="form-label" htmlFor="ap-image">Images (Up to 6) *</label>
+              <input id="ap-image" className="input" name="files" type="file" accept="image/*" multiple onChange={handleChange} required={!form.image} />
+              
+              <div style={{ display: 'flex', gap: '10px', marginTop: '10px', flexWrap: 'wrap' }}>
+                {form.files && form.files.length > 0 ? (
+                  form.files.map((file, i) => (
+                    <div key={i} style={{ width: '80px', height: '104px', borderRadius: '4px', overflow: 'hidden', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)', background: '#111', position: 'relative' }}>
+                      <img src={URL.createObjectURL(file)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      {i === 0 && <span style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'var(--gold)', color: '#000', fontSize: '9px', textAlign: 'center', fontWeight: 'bold' }}>MAIN</span>}
+                    </div>
+                  ))
+                ) : form.image ? (
+                  <div style={{ width: '80px', height: '104px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border)', background: '#111' }}>
+                    <img src={form.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                ) : null}
+              </div>
               <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '6px' }}>
-                Paste an Unsplash URL: <code style={{ color: 'var(--gold)' }}>https://images.unsplash.com/photo-ID?w=600&h=800&fit=crop</code>
+                Upload up to 6 images (max 50MB each). The first image will be the main image. Alternatively, enter a URL below.
               </p>
+              <input className="input" name="image" type="url" placeholder="Or paste an image URL…" value={form.image} onChange={handleChange} style={{ marginTop: '8px' }} />
             </div>
             <div className="form-group" style={{ gridColumn: '1 / -1' }}>
               <label className="form-label" htmlFor="ap-tags">Tags (comma-separated)</label>

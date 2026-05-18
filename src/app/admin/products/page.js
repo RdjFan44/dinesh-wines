@@ -15,6 +15,7 @@ export default function AdminProductsPage() {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({ total: 0, pages: 1 });
   const [deleting, setDeleting] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const [toggling, setToggling] = useState(null);
   const [toast, setToast] = useState(null);
 
@@ -46,8 +47,8 @@ export default function AdminProductsPage() {
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
   const handleDelete = async (id, name) => {
-    if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
     setDeleting(id);
+    setConfirmDelete(null);
     try {
       const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
       const data = await res.json();
@@ -271,21 +272,28 @@ export default function AdminProductsPage() {
                         </Link>
                         <button
                           id={`delete-${product._id}`}
-                          onClick={() => handleDelete(product._id, product.name)}
+                          onClick={() => {
+                            if (confirmDelete === product._id) {
+                              handleDelete(product._id, product.name);
+                            } else {
+                              setConfirmDelete(product._id);
+                              setTimeout(() => setConfirmDelete(null), 3000);
+                            }
+                          }}
                           disabled={deleting === product._id}
                           style={{
                             padding: '6px 14px',
                             fontSize: '12px',
                             borderRadius: 'var(--radius-sm)',
-                            background: 'rgba(224,84,84,0.08)',
+                            background: confirmDelete === product._id ? '#e05454' : 'rgba(224,84,84,0.08)',
                             border: '1px solid rgba(224,84,84,0.3)',
-                            color: '#e05454',
+                            color: confirmDelete === product._id ? '#fff' : '#e05454',
                             cursor: 'pointer',
                             transition: 'all 0.2s',
                             opacity: deleting === product._id ? 0.5 : 1,
                           }}
                         >
-                          {deleting === product._id ? '…' : 'Delete'}
+                          {deleting === product._id ? '…' : (confirmDelete === product._id ? 'Sure?' : 'Delete')}
                         </button>
                       </div>
                     </td>

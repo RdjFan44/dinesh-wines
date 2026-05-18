@@ -1,399 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dinesh Wines | Premium Liquor Catalog | Maharashtra</title>
-  <meta name="description" content="Dinesh Wines — Premium liquor catalog for Maharashtra. Browse beer, whisky, wine, vodka, gin, rum, tequila and more. For adults 21+ only."/>
-  <meta name="theme-color" content="#080f1a"/>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta name="description"
+    content="Dinesh Wines — Premium liquor catalog for Maharashtra. Browse beer, whisky, wine, vodka, gin, rum, tequila and more. For adults 21+ only." />
+  <meta name="theme-color" content="#080f1a" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
 
 
 
-<!-- ══ AGE + LOCATION VERIFICATION MODAL ══ -->
-<div id="age-modal">
-  <div class="age-modal-box">
-    <div class="modal-logo">DINESH <span>WINES</span></div>
-    <div class="modal-tagline">Spirit of Excellence</div>
+  <!-- ══ AGE + LOCATION VERIFICATION MODAL ══ -->
+  <div id="age-modal">
+    <div class="age-modal-box">
+      <div class="modal-logo">DINESH <span>WINES</span></div>
+      <div class="modal-tagline">Spirit of Excellence</div>
 
-    <div class="modal-warning-badge">
-      <i class="fa fa-shield-halved"></i> Age &amp; Location Verification Required
-    </div>
+      <div class="modal-warning-badge">
+        <i class="fa fa-shield-halved"></i> Age &amp; Location Verification Required
+      </div>
 
-    <p class="modal-intro">This catalog is exclusively for adults aged <strong>21 years and above</strong> residing in the state of <strong>Maharashtra</strong>, India.</p>
+      <p class="modal-intro">This catalog is exclusively for adults aged <strong>21 years and above</strong> residing in
+        the state of <strong>Maharashtra</strong>, India.</p>
 
-    <div class="modal-section-label">Your State of Residence</div>
-    <select id="state-select" class="modal-select">
-      <option value="">— Select your State —</option>
-      <option value="maharashtra">Maharashtra</option>
-      <option value="other">Other State</option>
-    </select>
-
-    <div class="modal-section-label" style="margin-top:16px;">Your Date of Birth</div>
-    <div class="dob-fields">
-      <input type="number" id="dob-day"   placeholder="DD"   min="1"  max="31"/>
-      <input type="number" id="dob-month" placeholder="MM"   min="1"  max="12"/>
-      <input type="number" id="dob-year"  placeholder="YYYY" min="1900" max="2010"/>
-    </div>
-
-    <div class="modal-checks">
-      <label class="check-row">
-        <input type="checkbox" id="chk-age"/>
-        <span>I confirm that I am 21 years of age or older</span>
-      </label>
-      <label class="check-row">
-        <input type="checkbox" id="chk-mh"/>
-        <span>I am a resident of Maharashtra, India</span>
-      </label>
-      <label class="check-row">
-        <input type="checkbox" id="chk-terms"/>
-        <span>I agree to the <a href="#" style="color:var(--teal)">Terms of Use</a> and understand this is a display catalog only — no online sale or delivery is facilitated</span>
-      </label>
-    </div>
-
-    <button class="btn-verify" onclick="verifyAge()">CONFIRM &amp; ENTER CATALOG</button>
-
-    <p class="modal-disclaimer">
-      This website is a product information catalog only. No online sale, order, or delivery of liquor is facilitated through this platform. Liquor can only be purchased at licensed retail outlets. &nbsp;|&nbsp; <strong>Drink Responsibly.</strong>
-    </p>
-  </div>
-</div>
-
-
-
-<!-- ══ HEADER ══ -->
-<header>
-  <div class="header-inner">
-    <a href="#" class="logo">
-      <div class="logo-name">DINESH <span>WINES</span></div>
-      <div class="logo-sub">Spirit of Excellence</div>
-    </a>
-    <div class="search-bar">
-      <input type="text" placeholder="Search catalog by name, brand, category…" id="search-input"/>
-      <select class="search-cat" id="search-cat-select">
-        <option value="">All Categories</option>
-        <option value="beer">Beer</option>
-        <option value="whiskey">Whisky</option>
-        <option value="wine">Wine</option>
-        <option value="vodka">Vodka</option>
-        <option value="gin">Gin</option>
-        <option value="rum">Rum</option>
-        <option value="tequila">Tequila</option>
-        <option value="champagne">Champagne</option>
-        <option value="brandy">Brandy</option>
+      <div class="modal-section-label">Your State of Residence</div>
+      <select id="state-select" class="modal-select">
+        <option value="">— Select your State —</option>
+        <option value="maharashtra">Maharashtra</option>
+        <option value="other">Other State</option>
       </select>
-      <button class="search-btn" onclick="doSearch()"><i class="fa fa-search"></i></button>
-    </div>
-    <div class="header-icons">
-      <a href="tel:+911234567890" class="icon-btn" title="Call Us">
-        <i class="fa fa-phone"></i>
-      </a>
-      <a href="#" class="icon-btn" title="Store Location">
-        <i class="fa fa-location-dot"></i>
-      </a>
 
+      <div class="modal-section-label" style="margin-top:16px;">Your Date of Birth</div>
+      <div class="dob-fields">
+        <input type="number" id="dob-day" placeholder="DD" min="1" max="31" />
+        <input type="number" id="dob-month" placeholder="MM" min="1" max="12" />
+        <input type="number" id="dob-year" placeholder="YYYY" min="1900" max="2010" />
+      </div>
+
+      <div class="modal-checks">
+        <label class="check-row">
+          <input type="checkbox" id="chk-age" />
+          <span>I confirm that I am 21 years of age or older</span>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" id="chk-mh" />
+          <span>I am a resident of Maharashtra, India</span>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" id="chk-terms" />
+          <span>I agree to the <a href="#" style="color:var(--teal)">Terms of Use</a> and understand this is a display
+            catalog only — no online sale or delivery is facilitated</span>
+        </label>
+      </div>
+
+      <button class="btn-verify" onclick="verifyAge()">CONFIRM &amp; ENTER CATALOG</button>
+
+      <p class="modal-disclaimer">
+        This website is a product information catalog only. No online sale, order, or delivery of liquor is facilitated
+        through this platform. Liquor can only be purchased at licensed retail outlets. &nbsp;|&nbsp; <strong>Drink
+          Responsibly.</strong>
+      </p>
     </div>
   </div>
-</header>
 
-<!-- ══ CATEGORY NAV ══ -->
-<nav class="cat-nav">
-  <div class="cat-nav-inner">
-    <a href="#catalog" class="cat-link active" onclick="navFilter(this,'all')">All</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'beer')">Beer</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'whiskey')">Whisky</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'tequila')">Tequila</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'vodka')">Vodka</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'gin')">Gin</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'rum')">Rum</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'wine')">Wine</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'champagne')">Champagne</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'brandy')">Brandy</a>
-    <a href="#catalog" class="cat-link" onclick="navFilter(this,'rtd')">RTD</a>
-  </div>
-</nav>
 
-<!-- ══ HERO BANNER ══ -->
-<section class="hero">
-  <div class="hero-slide active" id="slide-0">
-    <img src="public/Front Main Image.png" alt="Dinesh Wines Premium Collection" fetchpriority="high" decoding="async"/>
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-name">DINESH <span>WINES</span></div>
+        <div class="logo-sub">Spirit of Excellence</div>
+      </a>
+      <div class="search-bar">
+        <input type="text" placeholder="Search catalog by name, brand, category…" id="search-input" />
+        <select class="search-cat" id="search-cat-select">
+          <option value="">All Categories</option>
+          <option value="beer">Beer</option>
+          <option value="whiskey">Whisky</option>
+          <option value="wine">Wine</option>
+          <option value="vodka">Vodka</option>
+          <option value="gin">Gin</option>
+          <option value="rum">Rum</option>
+          <option value="tequila">Tequila</option>
+          <option value="champagne">Champagne</option>
+          <option value="brandy">Brandy</option>
+        </select>
+        <button class="search-btn" onclick="doSearch()"><i class="fa fa-search"></i></button>
+      </div>
+      <div class="header-icons">
+        <a href="tel:+911234567890" class="icon-btn" title="Call Us">
+          <i class="fa fa-phone"></i>
+        </a>
+        <a href="#" class="icon-btn" title="Store Location">
+          <i class="fa fa-location-dot"></i>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ CATEGORY NAV ══ -->
+  <nav class="cat-nav">
+    <div class="cat-nav-inner">
+      <a href="#catalog" class="cat-link active" onclick="navFilter(this,'all')">All</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'beer')">Beer</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'whiskey')">Whisky</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'tequila')">Tequila</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'vodka')">Vodka</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'gin')">Gin</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'rum')">Rum</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'wine')">Wine</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'champagne')">Champagne</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'brandy')">Brandy</a>
+      <a href="#catalog" class="cat-link" onclick="navFilter(this,'rtd')">RTD</a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO BANNER ══ -->
+  <section class="hero" id="hero-section">
+    <!-- Slide 1 — Whisky Collection -->
+    <div class="hero-slide active" id="slide-0">
+      <img src="hero-slide1.jpg" alt="Premium Whisky Collection" fetchpriority="high" decoding="async" />
+    </div>
+    <!-- Slide 2 — Gin Collection -->
+    <div class="hero-slide" id="slide-1">
+      <img src="hero-slide2.jpg" alt="Premium Gin Collection" decoding="async" />
+    </div>
+    <!-- Slide 3 — Vodka & Scotch Collection -->
+    <div class="hero-slide" id="slide-2">
+      <img src="hero-slide3.jpg" alt="Premium Vodka & Scotch Collection" decoding="async" />
+    </div>
+
+    <!-- Single overlay — stays fixed on left, never overlaps bottles on right -->
     <div class="hero-overlay">
       <div class="hero-content">
         <div class="hero-eyebrow">Maharashtra's Curated Collection</div>
         <h1 class="hero-title">Spirits that Define <em>Excellence</em></h1>
-        <p class="hero-sub">Browse our hand-picked catalog of the world's finest whiskies, wines, gins and more. Visit our licensed store in Maharashtra.</p>
-        <a href="#categories" class="btn-primary">Explore Catalog &nbsp;<i class="fa fa-arrow-right"></i></a>
-        <a href="#categories" class="btn-outline">Browse Categories</a>
+        <p class="hero-sub">Browse our hand-picked catalog of the world's finest whiskies, wines, gins and more. Visit
+          our licensed store in Maharashtra.</p>
+        <div class="hero-actions">
+          <a href="#categories" class="btn-primary">Explore Catalog &nbsp;<i class="fa fa-arrow-right"></i></a>
+          <a href="#categories" class="btn-outline">Browse Categories</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="hero-slide" id="slide-1">
-    <img src="public/Category Image Wine.png" alt="Wine Catalog" loading="lazy"/>
-    <div class="hero-overlay">
-      <div class="hero-content">
-        <div class="hero-eyebrow">Wine is Timeless</div>
-        <h1 class="hero-title">A Celebration in Every <em>Bottle</em></h1>
-        <p class="hero-sub">From bold reds to crisp whites — browse our curated wine catalog sourced from the world's finest vineyards.</p>
-        <a href="#catalog" class="btn-primary">Browse Wine &nbsp;<i class="fa fa-arrow-right"></i></a>
-        <a href="#categories" class="btn-outline">All Categories</a>
-      </div>
+
+    <!-- Slide dots -->
+    <div class="hero-dots">
+      <div class="hero-dot active" onclick="goSlide(0)" id="dot-0"></div>
+      <div class="hero-dot" onclick="goSlide(1)" id="dot-1"></div>
+      <div class="hero-dot" onclick="goSlide(2)" id="dot-2"></div>
     </div>
-  </div>
-  <div class="hero-slide" id="slide-2">
-    <img src="public/Category Image Whiskey.png" alt="Whiskey Catalog" loading="lazy"/>
-    <div class="hero-overlay">
-      <div class="hero-content">
-        <div class="hero-eyebrow">Aged to Perfection</div>
-        <h1 class="hero-title">The Art of Fine <em>Whiskey</em></h1>
-        <p class="hero-sub">Single malts, blended Scotch, Japanese whisky and more — for the true connoisseur in you.</p>
-        <a href="#catalog" class="btn-primary">Browse Whisky &nbsp;<i class="fa fa-arrow-right"></i></a>
-        <a href="#categories" class="btn-outline">All Categories</a>
-      </div>
-    </div>
-  </div>
-  <div class="hero-dots">
-    <div class="hero-dot active" onclick="goSlide(0)"></div>
-    <div class="hero-dot" onclick="goSlide(1)"></div>
-    <div class="hero-dot" onclick="goSlide(2)"></div>
-  </div>
-</section>
+  </section>
 
 
 
-<!-- ══ BROWSE BY CATEGORY ══ -->
-<section id="categories">
-  <div class="section">
-    <h2 class="section-title">Browse by Category</h2>
-    <p class="section-sub">Explore our wide range of premium spirits and beverages</p>
-    <div class="teal-line"></div>
-    <div class="cat-grid">
-      <div class="cat-card" onclick="navFilter(null,'beer')">
-        <img src="public/Category Image Beer.png" alt="Beer" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Beer</div>
-          <div class="cat-card-tag">Collection</div>
+  <!-- ══ BROWSE BY CATEGORY ══ -->
+  <section id="categories">
+    <div class="section">
+      <h2 class="section-title">Browse by Category</h2>
+      <p class="section-sub">Explore our wide range of premium spirits and beverages</p>
+      <div class="teal-line"></div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="navFilter(null,'beer')">
+          <img src="category-beer.png" alt="Beer" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Beer</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'whiskey')">
-        <img src="public/Category Image Whiskey.png" alt="Whiskey" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Whiskey</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'whiskey')">
+          <img src="category-whiskey.png" alt="Whiskey" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Whiskey</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'wine')">
-        <img src="public/Category Image Wine.png" alt="Wine" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Wine</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'wine')">
+          <img src="category-wine.png" alt="Wine" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Wine</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'vodka')">
-        <img src="public/Category Image Vodka.png" alt="Vodka" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Vodka</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'vodka')">
+          <img src="category-vodka.png" alt="Vodka" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Vodka</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'gin')">
-        <img src="public/Category Image Gin.png" alt="Gin" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Gin</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'gin')">
+          <img src="category-gin.png" alt="Gin" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Gin</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'rum')">
-        <img src="public/Category Image Rum.png" alt="Rum" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Rum</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'rum')">
+          <img src="category-rum.png" alt="Rum" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Rum</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'tequila')">
-        <img src="public/Category Image Tequila.png" alt="Tequila" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Tequila</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'tequila')">
+          <img src="category-tequila.png" alt="Tequila" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Tequila</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'champagne')">
-        <img src="public/Category Image Champagne.png" alt="Champagne" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Champagne</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'champagne')">
+          <img src="category-champagne.png" alt="Champagne" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Champagne</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'rtd')">
-        <img src="public/Category Image RTD.png" alt="RTD" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">RTD</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'rtd')">
+          <img src="category-rtd.png" alt="RTD" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">RTD</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
-      </div>
-      <div class="cat-card" onclick="navFilter(null,'brandy')">
-        <img src="public/Category Image Brandy.png" alt="Brandy" loading="lazy" decoding="async"/>
-        <div class="cat-card-overlay">
-          <div class="cat-card-name">Brandy</div>
-          <div class="cat-card-tag">Collection</div>
+        <div class="cat-card" onclick="navFilter(null,'brandy')">
+          <img src="category-brandy.png" alt="Brandy" loading="lazy" decoding="async" />
+          <div class="cat-card-overlay">
+            <div class="cat-card-name">Brandy</div>
+            <div class="cat-card-tag">Collection</div>
+          </div>
+          <button class="cat-card-btn">Explore</button>
         </div>
-        <button class="cat-card-btn">Explore</button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ══ PRODUCT CATALOG ══ -->
-<section id="catalog" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="section">
-    <h2 class="section-title">Product Catalog</h2>
-    <p class="section-sub">Browse our collection — visit our licensed store to purchase</p>
-    <div class="teal-line"></div>
+  <!-- ══ PRODUCT CATALOG ══ -->
+  <section id="catalog"
+    style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="section">
+      <h2 class="section-title">Product Catalog</h2>
+      <p class="section-sub">Browse our collection — visit our licensed store to purchase</p>
+      <div class="teal-line"></div>
 
-    <div class="catalog-bar">
-      <div class="filter-tabs" id="filter-tabs">
-        <button class="filter-tab active" onclick="setTab(this,'all')">All</button>
-        <button class="filter-tab" onclick="setTab(this,'beer')">Beer</button>
-        <button class="filter-tab" onclick="setTab(this,'whiskey')">Whiskey</button>
-        <button class="filter-tab" onclick="setTab(this,'wine')">Wine</button>
-        <button class="filter-tab" onclick="setTab(this,'vodka')">Vodka</button>
-        <button class="filter-tab" onclick="setTab(this,'gin')">Gin</button>
-        <button class="filter-tab" onclick="setTab(this,'rum')">Rum</button>
-        <button class="filter-tab" onclick="setTab(this,'tequila')">Tequila</button>
-        <button class="filter-tab" onclick="setTab(this,'brandy')">Brandy</button>
+      <div class="catalog-bar">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab active" onclick="setTab(this,'all')">All</button>
+          <button class="filter-tab" onclick="setTab(this,'beer')">Beer</button>
+          <button class="filter-tab" onclick="setTab(this,'whiskey')">Whiskey</button>
+          <button class="filter-tab" onclick="setTab(this,'wine')">Wine</button>
+          <button class="filter-tab" onclick="setTab(this,'vodka')">Vodka</button>
+          <button class="filter-tab" onclick="setTab(this,'gin')">Gin</button>
+          <button class="filter-tab" onclick="setTab(this,'rum')">Rum</button>
+          <button class="filter-tab" onclick="setTab(this,'tequila')">Tequila</button>
+          <button class="filter-tab" onclick="setTab(this,'brandy')">Brandy</button>
+        </div>
+        <div class="catalog-count" id="catalog-count">Showing all products</div>
       </div>
-      <div class="catalog-count" id="catalog-count">Showing all products</div>
+
+      <div class="products-grid" id="products-grid"></div>
+
+      <div class="catalog-notice">
+        <i class="fa fa-circle-info"></i>
+        This is a product information catalog only. No online purchase or delivery is available. All liquor must be
+        purchased in person at our licensed retail store in Maharashtra. &nbsp;|&nbsp; Prices available in-store.
+      </div>
     </div>
+  </section>
 
-    <div class="products-grid" id="products-grid"></div>
-
-    <div class="catalog-notice">
-      <i class="fa fa-circle-info"></i>
-      This is a product information catalog only. No online purchase or delivery is available. All liquor must be purchased in person at our licensed retail store in Maharashtra. &nbsp;|&nbsp; Prices available in-store.
-    </div>
-  </div>
-</section>
-
-<!-- ══ SPOTLIGHT BANNERS ══ -->
-<section>
-  <div class="section">
-    <h2 class="section-title">Spotlight Collection</h2>
-    <p class="section-sub">Curated highlights from our premium catalog</p>
-    <div class="teal-line"></div>
-    <div class="offers-grid">
-      <div class="offer-card">
-        <img src="public/Category Image Whiskey.png" alt="Whiskey Spotlight" loading="lazy" decoding="async"/>
-        <div class="offer-overlay">
-          <div class="offer-tag">Featured</div>
-          <div class="offer-title">Premium Whisky<br/>Selection</div>
-          <div class="offer-desc">Explore our single malts, blended Scotch &amp; Japanese whisky catalog</div>
-          <button class="btn-primary" style="font-size:0.8rem;padding:10px 20px;border:none;" onclick="navFilter(null,'whiskey')">Browse Whiskey</button>
+  <!-- ══ SPOTLIGHT BANNERS ══ -->
+  <section>
+    <div class="section">
+      <h2 class="section-title">Spotlight Collection</h2>
+      <p class="section-sub">Curated highlights from our premium catalog</p>
+      <div class="teal-line"></div>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <img src="category-whiskey.png" alt="Whiskey Spotlight" loading="lazy" decoding="async" />
+          <div class="offer-overlay">
+            <div class="offer-tag">Featured</div>
+            <div class="offer-title">Premium Whisky<br />Selection</div>
+            <div class="offer-desc">Explore our single malts, blended Scotch &amp; Japanese whisky catalog</div>
+            <button class="btn-primary" style="font-size:0.8rem;padding:10px 20px;border:none;"
+              onclick="navFilter(null,'whiskey')">Browse Whiskey</button>
+          </div>
+        </div>
+        <div class="offer-card">
+          <img src="category-wine.png" alt="Wine Spotlight" loading="lazy" decoding="async" />
+          <div class="offer-overlay">
+            <div class="offer-tag">New Additions</div>
+            <div class="offer-title">Imported Wine<br />Collection</div>
+            <div class="offer-desc">French, Italian, Chilean &amp; domestic wines — now in our catalog</div>
+            <button class="btn-primary" style="font-size:0.8rem;padding:10px 20px;border:none;"
+              onclick="navFilter(null,'wine')">Browse Wine</button>
+          </div>
         </div>
       </div>
-      <div class="offer-card">
-        <img src="public/Category Image Wine.png" alt="Wine Spotlight" loading="lazy" decoding="async"/>
-        <div class="offer-overlay">
-          <div class="offer-tag">New Additions</div>
-          <div class="offer-title">Imported Wine<br/>Collection</div>
-          <div class="offer-desc">French, Italian, Chilean &amp; domestic wines — now in our catalog</div>
-          <button class="btn-primary" style="font-size:0.8rem;padding:10px 20px;border:none;" onclick="navFilter(null,'wine')">Browse Wine</button>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-name" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;">DINESH
+          <span style="color:var(--teal)">WINES</span></div>
+        <div
+          style="font-size:0.6rem;letter-spacing:3px;color:var(--gray-400);text-transform:uppercase;margin-bottom:10px;">
+          Spirit of Excellence · Maharashtra</div>
+        <p>Maharashtra's curated liquor catalog. Browse our premium selection of domestic &amp; imported spirits. Visit
+          our licensed retail store to purchase.</p>
+        <div class="license-info">
+          <i class="fa fa-certificate" style="color:var(--teal)"></i>
+          Licensed under Maharashtra Excise Act
+        </div>
+        <div class="footer-social">
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="logo-name" style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;">DINESH <span style="color:var(--teal)">WINES</span></div>
-      <div style="font-size:0.6rem;letter-spacing:3px;color:var(--gray-400);text-transform:uppercase;margin-bottom:10px;">Spirit of Excellence · Maharashtra</div>
-      <p>Maharashtra's curated liquor catalog. Browse our premium selection of domestic &amp; imported spirits. Visit our licensed retail store to purchase.</p>
-      <div class="license-info">
-        <i class="fa fa-certificate" style="color:var(--teal)"></i>
-        Licensed under Maharashtra Excise Act
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#catalog">Product Catalog</a></li>
+          <li><a href="#categories">All Categories</a></li>
+          <li><a href="#">New Additions</a></li>
+          <li><a href="#">Disclaimer</a></li>
+        </ul>
       </div>
-      <div class="footer-social">
-        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#" onclick="navFilter(null,'beer')">Beer</a></li>
+          <li><a href="#" onclick="navFilter(null,'whiskey')">Whisky</a></li>
+          <li><a href="#" onclick="navFilter(null,'wine')">Wine</a></li>
+          <li><a href="#" onclick="navFilter(null,'vodka')">Vodka</a></li>
+          <li><a href="#" onclick="navFilter(null,'gin')">Gin</a></li>
+          <li><a href="#" onclick="navFilter(null,'rum')">Rum</a></li>
+          <li><a href="#" onclick="navFilter(null,'tequila')">Tequila</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Visit Our Store</h4>
+        <ul>
+          <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--teal);margin-right:6px"></i>123, MG Road,
+              Pune, Maharashtra</a></li>
+          <li><a href="tel:+911234567890"><i class="fa fa-phone" style="color:var(--teal);margin-right:6px"></i>+91
+              12345 67890</a></li>
+          <li><a href="mailto:info@dineshwines.com"><i class="fa fa-envelope"
+                style="color:var(--teal);margin-right:6px"></i>info@dineshwines.com</a></li>
+          <li><a href="#"><i class="fa fa-clock" style="color:var(--teal);margin-right:6px"></i>Mon–Sat: 11am – 9pm</a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#catalog">Product Catalog</a></li>
-        <li><a href="#categories">All Categories</a></li>
-        <li><a href="#">New Additions</a></li>
-        <li><a href="#">Disclaimer</a></li>
-      </ul>
+    <div class="footer-statutory">
+      <div class="statutory-footer-text">
+        <i class="fa fa-triangle-exclamation"></i>
+        <strong>STATUTORY WARNING:</strong> Consumption of alcohol is injurious to health. &nbsp;|&nbsp;
+        Sale of liquor to persons under 21 years of age is prohibited and is a criminal offence. &nbsp;|&nbsp;
+        This website does not facilitate the online sale or delivery of alcohol. &nbsp;|&nbsp;
+        <strong>Drink Responsibly.</strong>
+      </div>
     </div>
-    <div class="footer-col">
-      <h4>Categories</h4>
-      <ul>
-        <li><a href="#" onclick="navFilter(null,'beer')">Beer</a></li>
-        <li><a href="#" onclick="navFilter(null,'whiskey')">Whisky</a></li>
-        <li><a href="#" onclick="navFilter(null,'wine')">Wine</a></li>
-        <li><a href="#" onclick="navFilter(null,'vodka')">Vodka</a></li>
-        <li><a href="#" onclick="navFilter(null,'gin')">Gin</a></li>
-        <li><a href="#" onclick="navFilter(null,'rum')">Rum</a></li>
-        <li><a href="#" onclick="navFilter(null,'tequila')">Tequila</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <p>© 2025 <strong>Dinesh Wines</strong>. All rights reserved. &nbsp;|&nbsp; <a href="#">Privacy Policy</a>
+        &nbsp;|&nbsp; <a href="#">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="#">Disclaimer</a> &nbsp;|&nbsp; For
+        Maharashtra Residents Only</p>
     </div>
-    <div class="footer-col">
-      <h4>Visit Our Store</h4>
-      <ul>
-        <li><a href="#"><i class="fa fa-map-marker-alt" style="color:var(--teal);margin-right:6px"></i>123, MG Road, Pune, Maharashtra</a></li>
-        <li><a href="tel:+911234567890"><i class="fa fa-phone" style="color:var(--teal);margin-right:6px"></i>+91 12345 67890</a></li>
-        <li><a href="mailto:info@dineshwines.com"><i class="fa fa-envelope" style="color:var(--teal);margin-right:6px"></i>info@dineshwines.com</a></li>
-        <li><a href="#"><i class="fa fa-clock" style="color:var(--teal);margin-right:6px"></i>Mon–Sat: 11am – 9pm</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-statutory">
-    <div class="statutory-footer-text">
-      <i class="fa fa-triangle-exclamation"></i>
-      <strong>STATUTORY WARNING:</strong> Consumption of alcohol is injurious to health. &nbsp;|&nbsp;
-      Sale of liquor to persons under 21 years of age is prohibited and is a criminal offence. &nbsp;|&nbsp;
-      This website does not facilitate the online sale or delivery of alcohol. &nbsp;|&nbsp;
-      <strong>Drink Responsibly.</strong>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 <strong>Dinesh Wines</strong>. All rights reserved. &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms &amp; Conditions</a> &nbsp;|&nbsp; <a href="#">Disclaimer</a> &nbsp;|&nbsp; For Maharashtra Residents Only</p>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  /* ── Smooth scroll-reveal for sections ── */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
+  <script>
+    /* ── Smooth scroll-reveal for sections ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('section:not(.hero), footer').forEach(el => {
+      el.classList.add('reveal-on-scroll');
+      revealObserver.observe(el);
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('section:not(.hero), footer').forEach(el => {
-    el.classList.add('reveal-on-scroll');
-    revealObserver.observe(el);
-  });
-</script>
-<script src="app.js"></script>
+  </script>
+  <script src="app.js"></script>
 </body>
+
 </html>

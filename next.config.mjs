@@ -8,20 +8,16 @@ const nextConfig = {
       // Allow locally uploaded images served from /public/uploads
       { protocol: 'http', hostname: 'localhost' },
     ],
-    // Also allow unoptimized local paths
-    unoptimized: false,
+    // Allow unoptimized local public images
+    unoptimized: true,
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: '300mb',
     },
   },
-  async redirects() {
-    return [
-      // Root → new static frontend
-      { source: '/', destination: '/index.html', permanent: false },
-    ];
-  },
 };
+
+
 
 export default nextConfig;

@@ -31,8 +31,9 @@ const ProductSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, 'Please provide an image URL'],
+      required: false,
     },
+    images: [{ type: String }],
     alcoholContent: {
       type: String,
       default: 'N/A',
