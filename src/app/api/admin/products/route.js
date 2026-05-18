@@ -1,8 +1,26 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/lib/models/Product';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+async function uploadToCloudinary(buffer) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'dinesh-wines' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url);
+      }
+    );
+    stream.end(buffer);
+  });
+}
 
 // GET — list all products (including unavailable) for admin
 export async function GET(request) {
@@ -89,14 +107,8 @@ export async function POST(request) {
              return NextResponse.json({ success: false, error: 'File size exceeds 50MB limit.' }, { status: 400 });
           }
 
-          const filename = Date.now() + '-' + file.name.replaceAll(' ', '-');
-          const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-          
-          await fs.mkdir(uploadDir, { recursive: true });
-          const filepath = path.join(uploadDir, filename);
-          
-          await fs.writeFile(filepath, buffer);
-          imageUrls.push(`/uploads/${filename}`);
+          const secureUrl = await uploadToCloudinary(buffer);
+          imageUrls.push(secureUrl);
         }
       }
       
