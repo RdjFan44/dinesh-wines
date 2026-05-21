@@ -84,7 +84,7 @@ Update in:
 
 ## Legal Compliance Features
 
-✅ **Age Gate** — DOB modal (21+), blocks underage users  
+✅ **Age Gate** — DOB modal (25+), blocks underage users  
 ✅ **Location Gate** — Blocks Gujarat, Bihar, Nagaland, Mizoram  
 ✅ **Platform Disclaimer** — Prominent on home + persistent in footer  
 ✅ **Store Responsibility** — Footer + store page  

@@ -33,7 +33,7 @@ const StoreSchema = new mongoose.Schema(
     },
     license_info: {
       type: String,
-      default: '[REPLACE_ME — Store License Number]',
+      default: 'Licensed under Maharashtra Excise Act',
     },
     hours: {
       weekdays: { type: String, default: '10:00 AM – 10:00 PM' },

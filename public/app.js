@@ -120,14 +120,14 @@ function verifyAge() {
   const mo = today.getMonth() - birth.getMonth();
   if (mo < 0 || (mo === 0 && today.getDate() < birth.getDate())) age--;
 
-  if (age < 21) {
-    showModalError("Access denied. You must be 21 years or older to view this catalog.");
+  if (age < 25) {
+    showModalError("Access denied. You must be 25 years or older to view this catalog.");
     return;
   }
 
   // Checkboxes
   if (!chkAge) {
-    showModalError("Please confirm that you are 21 years of age or older.");
+    showModalError("Please confirm that you are 25 years of age or older.");
     return;
   }
   if (!chkMH) {

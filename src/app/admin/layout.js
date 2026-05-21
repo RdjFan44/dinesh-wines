@@ -7,6 +7,7 @@ const adminNavLinks = [
   { href: '/admin', label: 'Dashboard', icon: '📊' },
   { href: '/admin/products', label: 'Products', icon: '🍾' },
   { href: '/admin/products/add', label: 'Add Product', icon: '➕' },
+  { href: '/admin/import', label: 'Bulk Import', icon: '📥' },
   { href: '/', label: 'View Site ↗', icon: '🌐' },
 ];
 

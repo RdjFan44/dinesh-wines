@@ -33,10 +33,14 @@ export default function EditProductPage() {
         const data = await res.json();
         if (data.success) {
           const p = data.data;
+          const initialImages = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
           setForm({
             ...p,
             price_range: { min: p.price_range?.min || '', max: p.price_range?.max || '' },
+            isPriceRange: p.price_range?.min !== p.price_range?.max,
             tags: Array.isArray(p.tags) ? p.tags.join(', ') : '',
+            images: initialImages,
+            files: [],
           });
         } else {
           setError('Product not found');
@@ -51,14 +55,28 @@ export default function EditProductPage() {
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     if (name === 'price_min') {
       setForm((f) => ({ ...f, price_range: { ...f.price_range, min: value } }));
     } else if (name === 'price_max') {
       setForm((f) => ({ ...f, price_range: { ...f.price_range, max: value } }));
+    } else if (type === 'file') {
+      const selectedFiles = Array.from(files).slice(0, 6);
+      setForm((f) => ({ ...f, files: selectedFiles }));
     } else {
       setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
     }
+  };
+
+  const handleRemoveExistingImage = (idxToRemove) => {
+    setForm((f) => {
+      const updatedImages = f.images.filter((_, idx) => idx !== idxToRemove);
+      return {
+        ...f,
+        images: updatedImages,
+        image: updatedImages[0] || '',
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -67,15 +85,38 @@ export default function EditProductPage() {
     setSuccess('');
     setLoading(true);
     try {
-      const payload = {
-        ...form,
-        price_range: { min: Number(form.price_range.min), max: Number(form.price_range.max) },
-        tags: typeof form.tags === 'string' ? form.tags.split(',').map((t) => t.trim()).filter(Boolean) : form.tags,
-      };
+      const formData = new FormData();
+      const finalPriceMin = Number(form.price_range.min);
+      const finalPriceMax = form.isPriceRange ? Number(form.price_range.max) : finalPriceMin;
+
+      formData.append('name', form.name);
+      formData.append('category', form.category);
+      formData.append('subcategory', form.subcategory || '');
+      formData.append('brand', form.brand);
+      formData.append('description', form.description);
+      formData.append('price_range', JSON.stringify({ min: finalPriceMin, max: finalPriceMax }));
+      formData.append('tags', typeof form.tags === 'string' ? form.tags.split(',').map((t) => t.trim()).filter(Boolean).join(',') : (form.tags || []).join(','));
+      formData.append('alcoholContent', form.alcoholContent || '');
+      formData.append('volume', form.volume || '');
+      formData.append('origin', form.origin || '');
+      formData.append('featured', form.featured);
+      formData.append('available', form.available);
+
+      // Append keeping existing images array
+      formData.append('images', JSON.stringify(form.images || []));
+
+      // Append new files
+      if (form.files && form.files.length > 0) {
+        form.files.forEach(file => {
+          formData.append('files', file);
+        });
+      } else if (form.image) {
+        formData.append('image', form.image); // fallback URL
+      }
+
       const res = await fetch(`/api/admin/products/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: formData,
       });
       const data = await res.json();
       if (data.success) {
@@ -121,7 +162,7 @@ export default function EditProductPage() {
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '24px', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '24px', alignItems: 'start' }}>
         {/* Main Form */}
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '32px' }}>
           <form id="edit-product-form" onSubmit={handleSubmit} noValidate>
@@ -151,14 +192,29 @@ export default function EditProductPage() {
                 <label className="form-label" htmlFor="ep-origin">Origin</label>
                 <input id="ep-origin" className="input" name="origin" value={form.origin || ''} onChange={handleChange} />
               </div>
-              <div className="form-group">
-                <label className="form-label" htmlFor="ep-price-min">Min Price (₹)</label>
-                <input id="ep-price-min" className="input" name="price_min" type="number" value={form.price_range.min} onChange={handleChange} min="0" />
+              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-primary)' }}>
+                  <input type="checkbox" name="isPriceRange" checked={form.isPriceRange} onChange={handleChange} style={{ accentColor: 'var(--gold)' }} />
+                  Use a price range (Min - Max) instead of a single price
+                </label>
               </div>
-              <div className="form-group">
-                <label className="form-label" htmlFor="ep-price-max">Max Price (₹)</label>
-                <input id="ep-price-max" className="input" name="price_max" type="number" value={form.price_range.max} onChange={handleChange} min="0" />
-              </div>
+              {!form.isPriceRange ? (
+                <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                  <label className="form-label" htmlFor="ep-price">Price (₹) *</label>
+                  <input id="ep-price" className="input" name="price_min" type="number" placeholder="e.g. 2000" value={form.price_range.min} onChange={handleChange} required min="0" />
+                </div>
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="ep-price-min">Min Price (₹) *</label>
+                    <input id="ep-price-min" className="input" name="price_min" type="number" placeholder="e.g. 2000" value={form.price_range.min} onChange={handleChange} required min="0" />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor="ep-price-max">Max Price (₹) *</label>
+                    <input id="ep-price-max" className="input" name="price_max" type="number" placeholder="e.g. 3000" value={form.price_range.max} onChange={handleChange} required min="0" />
+                  </div>
+                </>
+              )}
               <div className="form-group">
                 <label className="form-label" htmlFor="ep-alcohol">Alcohol Content</label>
                 <input id="ep-alcohol" className="input" name="alcoholContent" value={form.alcoholContent || ''} onChange={handleChange} />
@@ -171,10 +227,40 @@ export default function EditProductPage() {
                 <label className="form-label" htmlFor="ep-description">Description *</label>
                 <textarea id="ep-description" className="input" name="description" value={form.description} onChange={handleChange} required rows={4} />
               </div>
+              
+              {/* Image Section */}
               <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label className="form-label" htmlFor="ep-image">Image URL</label>
-                <input id="ep-image" className="input" name="image" type="url" value={form.image || ''} onChange={handleChange} />
+                <label className="form-label" htmlFor="ep-image-files">Upload Images (Up to 6 in total) *</label>
+                <input id="ep-image-files" className="input" name="files" type="file" accept="image/*" multiple onChange={handleChange} required={(!form.images || form.images.length === 0) && !form.image} />
+                
+                {/* Previews: Existing and New */}
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px', flexWrap: 'wrap' }}>
+                  {/* Render Existing Images */}
+                  {form.images && form.images.length > 0 && form.images.map((img, i) => (
+                    <div key={`existing-${i}`} style={{ width: '80px', height: '104px', borderRadius: '4px', overflow: 'hidden', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)', background: '#111', position: 'relative' }}>
+                      <img src={img} alt="Existing Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      {i === 0 && <span style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'var(--gold)', color: '#000', fontSize: '9px', textAlign: 'center', fontWeight: 'bold' }}>MAIN</span>}
+                      <button type="button" onClick={() => handleRemoveExistingImage(i)} style={{ position: 'absolute', top: '2px', right: '2px', background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%', width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff6b6b', cursor: 'pointer', padding: 0 }}>
+                        <i className="fa fa-times" style={{ fontSize: '10px' }}></i>
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {/* Render Newly Selected Files */}
+                  {form.files && form.files.length > 0 && form.files.map((file, i) => (
+                    <div key={`new-${i}`} style={{ width: '80px', height: '104px', borderRadius: '4px', overflow: 'hidden', border: (!form.images || form.images.length === 0) && i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)', background: '#111', position: 'relative' }}>
+                      <img src={URL.createObjectURL(file)} alt="New Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      {(!form.images || form.images.length === 0) && i === 0 && <span style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'var(--gold)', color: '#000', fontSize: '9px', textAlign: 'center', fontWeight: 'bold' }}>MAIN</span>}
+                    </div>
+                  ))}
+                </div>
+                
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '6px' }}>
+                  Upload up to 6 images (max 50MB each). Use the red cross (x) to remove existing database images. Alternatively, enter a URL below.
+                </p>
+                <input id="ep-image" className="input" name="image" type="url" placeholder="Or paste an image URL fallback…" value={form.image || ''} onChange={handleChange} style={{ marginTop: '8px' }} />
               </div>
+
               <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                 <label className="form-label" htmlFor="ep-tags">Tags</label>
                 <input id="ep-tags" className="input" name="tags" value={form.tags} onChange={handleChange} placeholder="comma separated tags" />
@@ -206,6 +292,10 @@ export default function EditProductPage() {
           {form.image ? (
             <div style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden', aspectRatio: '3/4', background: '#111', marginBottom: '16px' }}>
               <img src={form.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
+            </div>
+          ) : form.images && form.images.length > 0 ? (
+            <div style={{ borderRadius: 'var(--radius-sm)', overflow: 'hidden', aspectRatio: '3/4', background: '#111', marginBottom: '16px' }}>
+              <img src={form.images[0]} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
             </div>
           ) : (
             <div style={{ borderRadius: 'var(--radius-sm)', aspectRatio: '3/4', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px' }}>

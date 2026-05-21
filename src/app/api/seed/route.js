@@ -20,17 +20,17 @@ export async function GET() {
       {
         name: 'Dinesh Wines — Main Store',
         address: {
-          street: '[REPLACE_ME — Street Address]',
-          city: '[REPLACE_ME — City]',
-          state: '[REPLACE_ME — State]',
-          pincode: '[REPLACE_ME — Pincode]',
+          street: 'Shahapur bazaar peth opp panchayat samiti',
+          city: 'Shahapur',
+          state: 'Maharashtra',
+          pincode: '421601',
         },
-        phone: '[REPLACE_ME — +91XXXXXXXXXX]',
-        whatsapp: '[REPLACE_ME — 91XXXXXXXXXX]',
-        location: { lat: 19.076090, lng: 72.877426 },
-        googleMapsUrl: 'https://maps.google.com/?q=[REPLACE_ME]',
+        phone: '+91 91454 74275',
+        whatsapp: '919145474275',
+        location: { lat: 19.4533, lng: 73.3306 }, // Latitude and Longitude for Shahapur, Thane district, Maharashtra
+        googleMapsUrl: 'https://maps.google.com/?q=Shahapur+bazaar+peth+opp+panchayat+samiti',
         googleMapsEmbed: '',
-        license_info: '[REPLACE_ME — License Number]',
+        license_info: 'Licensed under Maharashtra Excise Act',
         hours: {
           weekdays: '10:00 AM – 10:00 PM',
           weekends: '10:00 AM – 11:00 PM',
