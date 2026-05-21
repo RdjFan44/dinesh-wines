@@ -215,7 +215,7 @@ function renderCatalog(filter) {
         </div>
         <div class="product-type">${p.type}</div>
         <div class="product-desc" id="desc-${p.id}">${p.desc}</div>
-        ${p.desc && p.desc.length > 70 ? `<button class="desc-toggle-btn" id="btn-${p.id}" onclick="toggleDesc('${p.id}')">Add more</button>` : '<div style="margin-bottom:12px;"></div>'}
+        ${p.desc && p.desc.length > 100 ? `<button class="desc-toggle-btn" id="btn-${p.id}" onclick="toggleDesc('${p.id}')">Read more</button>` : '<div style="margin-bottom:10px;"></div>'}
         <div class="in-store-note"><i class="fa fa-store"></i> Available in-store only</div>
       </div>
     </div>
@@ -295,7 +295,7 @@ function doSearch() {
             </div>
             <div class="product-type">${p.type}</div>
             <div class="product-desc" id="desc-search-${p.id}">${p.desc}</div>
-            ${p.desc && p.desc.length > 70 ? `<button class="desc-toggle-btn" id="btn-search-${p.id}" onclick="toggleDesc('search-${p.id}')">Add more</button>` : '<div style="margin-bottom:12px;"></div>'}
+            ${p.desc && p.desc.length > 100 ? `<button class="desc-toggle-btn" id="btn-search-${p.id}" onclick="toggleDesc('search-${p.id}')">Read more</button>` : '<div style="margin-bottom:10px;"></div>'}
             <div class="in-store-note"><i class="fa fa-store"></i> Available in-store only</div>
           </div>
         </div>
@@ -316,10 +316,10 @@ function toggleDesc(id) {
 
   if (descEl.classList.contains('expanded')) {
     descEl.classList.remove('expanded');
-    btnEl.textContent = 'Add more';
+    btnEl.textContent = 'Read more';
   } else {
     descEl.classList.add('expanded');
-    btnEl.textContent = 'Add less';
+    btnEl.textContent = 'Read less';
   }
 }
 
