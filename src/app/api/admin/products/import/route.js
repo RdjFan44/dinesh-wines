@@ -84,15 +84,32 @@ export async function POST(request) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const workbook = XLSX.read(buffer, { type: 'buffer' });
+      // Detect file type by extension for correct XLSX parsing
+      const fileName = file.name || '';
+      const ext = fileName.split('.').pop().toLowerCase();
+
+      let workbook;
+      if (ext === 'csv') {
+        // For CSV: convert buffer to string first, then parse
+        const csvString = buffer.toString('utf-8');
+        workbook = XLSX.read(csvString, { type: 'string' });
+      } else {
+        workbook = XLSX.read(buffer, { type: 'buffer' });
+      }
+
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
 
       // Convert sheet to JSON with headers as keys
       rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      console.log(`[Import] Parsed ${rows.length} rows from ${fileName} (type: ${ext})`);
 
       if (rows.length === 0) {
-        return NextResponse.json({ success: false, error: 'The file appears to be empty or has no data rows.' }, { status: 400 });
+        return NextResponse.json({
+          success: false,
+          error: 'The file appears to be empty or has no data rows. Make sure the first row contains column headers.',
+          inserted: 0, total: 0, validCount: 0, invalidCount: 0, errors: [],
+        }, { status: 400 });
       }
 
     } else {

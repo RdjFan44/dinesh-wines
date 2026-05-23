@@ -103,7 +103,12 @@ export default function BulkImportPage() {
       fd.append('file', selectedFile);
       const res = await fetch('/api/admin/products/import', { method: 'POST', body: fd });
       const data = await res.json();
-      setResult(data);
+      if (!data.success && !data.total) {
+        // Pure error (e.g. empty file, no rows parsed) — show as error banner
+        setError(data.error || 'Import failed. Please check your file and try again.');
+      } else {
+        setResult(data);
+      }
     } catch (e) {
       setError('Network error: ' + e.message);
     } finally {
